@@ -1,0 +1,35 @@
+# Deployment web
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversaopeso
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: conversaopeso
+  template:
+    metadata:
+      labels:
+        app: conversaopeso
+    spec:
+      containers:
+        - name: conversaopeso
+          image: elvesbd41/conversao-peso:v1
+          ports:
+            - containerPort: 80
+---
+# Deployment Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversaopeso
+spec:
+  selector:
+    app: conversaopeso
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
+  type: NodePort
